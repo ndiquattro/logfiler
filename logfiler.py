@@ -1,22 +1,25 @@
-# Logfile maker
+# Logfile Maker
 import os
 import csv
 import time
 
-class logger(object):
-    ''' Helper class for creating and writing to a logfile '''
+
+class Logger(object):
+    """
+    Open logfile and create data folder if needed.
+
+    :param subname: Subject identifier.
+    :type subname: str
+    :param suffix: Experiment identifier.
+    :type suffix: str
+    :param folder: Path to folder to write logfiles. Creates folder if it
+                   doesn't exist
+    :type folder: str
+    """
     
-    def __init__(self, subname, suffix, folder = 'data'):
-        ''' Opens logfile, creating a data folder if need be. 
-        
-        Parameters
-            subname -- Subject ID
-            suffix  -- Tag placed at the end of the file. Typically experiment
-                       name.
-            folder  -- Name of folder to save data in. Will be created if it
-                       doesn't exist. Defaults to 'data'.
-        '''
-        # Add datafolder if not found
+    def __init__(self, subname, suffix, folder='data'):
+
+        # Create datafolder if not found
         if not os.path.isdir(folder):
             os.mkdir(folder)
             
@@ -34,13 +37,13 @@ class logger(object):
         self.hwrite = True
         
     def write(self, tdict):
-        ''' Adds a row of data to logfile.
-        
-        Parameters
-            tdict -- A python dictionary object. Keys are headers, values are
-                     data.
-        '''
-        
+        """
+        Writes a row of data to the logfile.
+
+        :param tdict: Dictionary containing information about a trial.
+        :type tdict: dict
+        """
+
         # Write header if need be
         if self.hwrite:
             self.log.writerow(tdict.keys())
@@ -50,7 +53,9 @@ class logger(object):
         self.log.writerow(tdict.values())
         
     def close(self):
-        ''' Closes logfile. '''
-        
+        """
+        Closes the logfile.
+        """
+
         # Close logfile
         self.file.close()
